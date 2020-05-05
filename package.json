@@ -1,0 +1,8 @@
+{
+  "name": "gnome-wallpaper-changer-v2",
+  "description": "",
+  "devDependencies": {
+    "node-fetch": "^2.6.0"
+  },
+  "scripts": {}
+}
