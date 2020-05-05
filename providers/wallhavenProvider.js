@@ -7,7 +7,6 @@ const Soup = imports.gi.Soup;
 const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 const WallpaperProvider = Self.imports.wallpaperProvider;
-log('[EXTENSION_LOG]', 2222);
 const SETTINGS_DELAY = 5;
 
 const OPTIONS = {
@@ -206,92 +205,65 @@ const Provider = new Lang.Class({
   },
 
   _requestWallpapersOnPage: function (page, callback, no_match_callback) {
-    Utils.debug('_requestWallpapersOnPage, page: ' + page, this.__name__);
-    Utils.debug('Requesting: https://alpha.wallhaven.cc/search?' + OPTIONS.toParameterString() + '&page=' + page, this.__name__);
-    const request = this.session.request_http('GET',
-      'https://alpha.wallhaven.cc/search?' + OPTIONS.toParameterString() + '&page=' + page);
+    const request = this.session.request_http(
+      'GET',
+      'https://wallhaven.cc/api/v1/search?' + OPTIONS.toParameterString() + '&page=' + page
+    );
     const message = request.get_message();
 
     this.session.queue_message(message, Lang.bind(this, function (session, message) {
-      let ids = [];
+      let paths = [];
       if (message.status_code != Soup.KnownStatusCode.OK) {
         Utils.debug('_requestWallpapersOnPage error: ' + message.status_code, this.__name__);
         if (callback) {
-          callback(ids);
+          callback(paths);
         }
         return;
       }
 
-      const matches = message.response_body.data.match(/data-wallpaper-id="(\d+)"/g);
-      if (matches) {
-        ids = matches.map(function (elem) {
-          return elem.match(/\d+/);
-        });
-        Utils.debug('ids: ' + ids, this.__name__);
-      }
+      const response = JSON.parse(message.response_body.data)
+      response.data.filter(function(item) {
+        paths.push(item.path)
+      })
 
       if (callback) {
-        callback(ids);
+        callback(paths);
       }
     }));
   },
 
-  _downloadWallpaper: function (id, callback) {
-    Utils.debug('_downloadWallpaper: ' + id, this.__name__);
-    this._requestWallpaperType(id, Lang.bind(this, function (type) {
-      if (type) {
-        const request = this.session.request_http('GET', 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-' + id + '.' + type);
-        const message = request.get_message();
+  _downloadWallpaper: function (path, callback) {
+    Utils.debug('_downloadWallpaper: ' + path, this.__name__);
+    try {
+      const request = this.session.request_http('GET', path);
+      const message = request.get_message();
+      const outputFile = this.dir.get_child(path.match(/wallhaven-.*/)[0]);
 
-        const outputFile = this.dir.get_child('wallhaven-' + id + '.' + type);
-        if (!outputFile.query_exists(null)) {
-          const outputStream = outputFile.create(Gio.FileCreateFlags.NONE, null);
+      if (!outputFile.query_exists(null)) {
+        const outputStream = outputFile.create(Gio.FileCreateFlags.NONE, null);
 
-          this.session.queue_message(message, Lang.bind(this, function (session, message) {
-            const contents = message.response_body.flatten().get_as_bytes();
-            outputStream.write_bytes(contents, null);
-            outputStream.close(null);
-            Utils.debug('Downloaded: ' + id, this.__name__);
-            if (callback) {
-              callback(outputFile.get_parse_name());
-            }
-          }));
-        } else {
+        this.session.queue_message(message, Lang.bind(this, function (session, message) {
+          const contents = message.response_body.flatten().get_as_bytes();
+          outputStream.write_bytes(contents, null);
+          outputStream.close(null);
+          Utils.debug('Downloaded: ' + path, this.__name__);
           if (callback) {
             callback(outputFile.get_parse_name());
           }
-        }
+        }));
       } else {
         if (callback) {
-          callback(null);
+          callback(outputFile.get_parse_name());
         }
       }
-    }));
-  },
-
-  _requestWallpaperType: function (id, callback) {
-    Utils.debug('_requestWallpaperType: ' + id, this.__name__);
-    const request = this.session.request_http('GET', 'https://alpha.wallhaven.cc/wallpaper/' + id);
-    const message = request.get_message();
-    this.session.queue_message(message, Lang.bind(this, function (session, message) {
-      if (message.status_code != Soup.KnownStatusCode.OK) {
-        Utils.debug('_requestWallpaperType error: ' + message.status_code, this.__name__);
-        if (callback) {
-          callback(null);
-        }
-        return;
-      }
-
-      const type = message.response_body.data.match(/\/\/wallpapers.wallhaven.cc\/wallpapers\/full\/wallhaven-\d+.(\w+)/i)[1];
-      if (callback) {
-        callback(type);
-      }
-    }));
+    } catch (e) {
+      Utils.debug(e)
+    }
   },
 
   _requestToken: function (callback) {
     Utils.debug('_requestToken', this.__name__);
-    const request = this.session.request_http('GET', 'https://alpha.wallhaven.cc/auth/login');
+    const request = this.session.request_http('GET', 'https://wallhaven.cc/auth/login');
     const message = request.get_message();
     this.session.queue_message(message, Lang.bind(this, function (session, message) {
       let token = null;
@@ -317,7 +289,7 @@ const Provider = new Lang.Class({
 
   _requestLogin: function (username, password, token, callback) {
     Utils.debug('_requestLogin', this.__name__);
-    const request = this.session.request_http('POST', 'https://alpha.wallhaven.cc/auth/login');
+    const request = this.session.request_http('POST', 'https://wallhaven.cc/auth/login');
     const message = request.get_message();
     const body = '_token=' + token + '&username=' + username + '&password=' + password;
     message.set_request('multipart/form-data', Soup.MemoryUse.COPY, body);
