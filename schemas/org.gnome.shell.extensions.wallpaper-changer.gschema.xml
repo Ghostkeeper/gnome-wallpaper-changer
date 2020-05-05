@@ -24,6 +24,12 @@
       <description>The provider implementation to query for new wallpapers</description>
     </key>
 
+    <key name="scaled" type="b">
+      <default>true</default>
+      <summary>Scaled to monitor</summary>
+      <description></description>
+    </key>
+
     <key name="debug" type="b">
       <default>false</default>
       <summary>Enable debugging</summary>
