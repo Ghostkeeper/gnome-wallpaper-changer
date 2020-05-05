@@ -17,7 +17,7 @@ function buildPrefsWidget() {
   const widget = main.get_object('prefs_widget');
 
   const versionLabel = main.get_object('version_info');
-  versionLabel.set_text('[Wallpaper Changer v' + Self.metadata.version + ']');
+  versionLabel.set_text('[Wallpaper Changer v2 ' + Self.metadata.version + ']');
 
   const providerList = main.get_object('field_provider');
   for (let provider in Utils.getProviders()) {
