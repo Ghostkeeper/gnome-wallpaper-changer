@@ -48,10 +48,11 @@ const WallpaperChangerEntry = new Lang.Class({
     this.settings.connect('changed::minutes', Lang.bind(this, this._applyTimer));
     this.settings.connect('changed::hours', Lang.bind(this, this._applyTimer));
     this.settings.connect('changed::provider', Lang.bind(this, this._applyProvider));
-
+    this.settings.connect('changed::monitors', Lang.bind(this, this._applyMonitors));
     this.settings.connect('changed::debug', Lang.bind(this, function () {
       Utils.DEBUG = this.settings.get_boolean('debug');
     }));
+
     Utils.DEBUG = this.settings.get_boolean('debug');
     Utils.debug('_init', this.__name__);
 
@@ -119,6 +120,10 @@ const WallpaperChangerEntry = new Lang.Class({
     TIMER.hours = this.settings.get_int('hours');
 
     this._resetTimer();
+  },
+
+  _applyMonitors: function () {
+    Utils.debug('_applyMonitors', this.__name__);
   },
 
   _resetTimer: function () {

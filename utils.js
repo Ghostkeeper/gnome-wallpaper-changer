@@ -1,8 +1,12 @@
-let DEBUG = false;
+const settings = getSettings()
+const DEBUG = settings.get_boolean('debug');
+
 function debug(message, name) {
   if (!DEBUG) return;
   name = name ? ' - ' + name : '';
-  global.log('[wallpaper-changer' + name + '] ' + message);
+  if(typeof global !== 'undefined') {
+    global.log('[wallpaper-changer' + name + '] ' + message);
+  }
 }
 
 const Gio = imports.gi.Gio;

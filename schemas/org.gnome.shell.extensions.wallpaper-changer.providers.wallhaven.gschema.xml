@@ -9,6 +9,12 @@
       <description>The query to pass to wallhaven when fetching wallpapers</description>
     </key>
 
+    <key name="token" type="s">
+      <default>""</default>
+      <summary>API token</summary>
+      <description>Your personal Wallhaven API token found on your Account Settings page</description>
+    </key>
+
     <key name="category-general" type="b">
       <default>true</default>
       <summary>Enable general</summary>

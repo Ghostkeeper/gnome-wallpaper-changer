@@ -35,5 +35,12 @@
       <summary>Enable debugging</summary>
       <description></description>
     </key>
+
+    <key name="monitors" type="i">
+      <default>1</default>
+      <summary>Monitor count</summary>
+      <description>Amount of monitors to apply unique wallpapers to</description>
+      <range min="1" max="32"/>
+    </key>
   </schema>
 </schemalist>

@@ -14,6 +14,12 @@
 	<property name="step_increment">1</property>
 </object>
 
+<object class="GtkAdjustment" id="AdjustMonitors">
+	<property name="lower">1</property>
+	<property name="upper">32</property>
+	<property name="step_increment">1</property>
+</object>
+
 <object class="GtkNotebook" id="prefs_widget">
   <property name="expand">true</property>
 
@@ -26,7 +32,7 @@
 
 			<child>
 				<object class="GtkVBox">
-				<property name="spacing">6</property>
+				<property name="spacing">7</property>
 
 					<child>
 						<object class="GtkBox">
@@ -144,6 +150,26 @@
 							</child>
 						</object>
 					</child>
+
+					<child>
+						<object class="GtkBox">
+							<property name="margin-left">12</property>
+							<property name="spacing">12</property>
+							<child>
+								<object class="GtkLabel">
+									<property name="label" translatable="yes">Monitor count</property>
+									<property name="hexpand">true</property>
+									<property name="halign">1</property>
+								</object>
+							</child>
+							<child>
+								<object class="GtkSpinButton" id="field_monitors">
+									<property name="adjustment">AdjustMonitors</property>
+								</object>
+							</child>
+						</object>
+					</child>
+
 				</object>
 			</child>
 		</object>

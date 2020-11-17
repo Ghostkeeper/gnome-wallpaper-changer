@@ -45,7 +45,9 @@ const Provider = new Lang.Class({
     Soup.Session.prototype.add_feature.call(this.session, cookiejar);
 
     this.settings = Utils.getSettings(this);
+    this.extensionSettings = Utils.getSettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
+    this.extensionSettings.connect('changed', Lang.bind(this, this._applySettings));
     this._applySettings();
   },
 
@@ -58,6 +60,7 @@ const Provider = new Lang.Class({
     const newWallpaper = Lang.bind(this, function () {
       Utils.debug('newWallpaper', this.__name__);
       this.next(callback, true);
+
       this.wallpapers = this.wallpapers.filter(Lang.bind(this, function (w) {
         return this.currentWallpaper !== w;
       }));
@@ -96,7 +99,7 @@ const Provider = new Lang.Class({
         this.page = 0;
         this.next(callback);
       } else {
-        global.log('Couldn\'t get new wallpapers, reusing old.');
+        Utils.debug('Couldn\'t get new wallpapers, reusing old.');
         this.wallpapers = oldWallpapers;
         newWallpaper();
       }
@@ -114,6 +117,7 @@ const Provider = new Lang.Class({
     const prefs = this.parent();
 
     this.settings.bind('query', prefs.get_object('field_query'), 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('token', prefs.get_object('field_token'), 'text', Gio.SettingsBindFlags.DEFAULT);
 
     this.settings.bind('category-general', prefs.get_object('field_general'), 'active', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('category-anime', prefs.get_object('field_anime'), 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -137,12 +141,16 @@ const Provider = new Lang.Class({
   },
 
   _applySettings: function () {
-    Utils.debug('_applySettings', this.__name__);
-
     if (this.settingsTimer) {
       GLib.Source.remove(this.settingsTimer);
     }
     this.settingsTimer = null;
+
+    const monitors = this.extensionSettings.get_int('monitors') || 1;
+
+    Utils.debug('_applySettings monitor count: ' + monitors, this.__name__)
+
+    OPTIONS.monitors = monitors;
 
     OPTIONS.query = this.settings.get_string('query').replace(/ /g, '+');
 
@@ -158,20 +166,6 @@ const Provider = new Lang.Class({
     OPTIONS.ratio = this.settings.get_string('ratio');
     OPTIONS.sorting = this.settings.get_string('sorting');
     OPTIONS.order = this.settings.get_string('order');
-
-    if (this.settings.get_boolean('purity-nsfw')) {
-      /*
-      this._requestToken(Lang.bind(this, function (token) {
-        this._requestLogin('user', 'pass', token, function (bool) {
-          if (bool) {
-            Utils.debug("SUCCESS", this.__name__);
-          } else {
-            Utils.debug("FAILURE", this.__name__);
-          }
-        });
-      }));
-      */
-    }
 
     this.settingsTimer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT,
       SETTINGS_DELAY,
@@ -205,11 +199,14 @@ const Provider = new Lang.Class({
   },
 
   _requestWallpapersOnPage: function (page, callback, no_match_callback) {
+    Utils.debug('_requestWallpapersOnPage: ' + page, this.__name__);
+    const params = `${OPTIONS.toParameterString()}&page=${page}&apikey=${this.settings.get_string('token')}`
     const request = this.session.request_http(
       'GET',
-      'https://wallhaven.cc/api/v1/search?' + OPTIONS.toParameterString() + '&page=' + page
+      `https://wallhaven.cc/api/v1/search?${params}`
     );
     const message = request.get_message();
+    Utils.debug('_requestWallpapersOnPage: ' + params, this.__name__)
 
     this.session.queue_message(message, Lang.bind(this, function (session, message) {
       let paths = [];
@@ -260,52 +257,4 @@ const Provider = new Lang.Class({
       Utils.debug(e)
     }
   },
-
-  _requestToken: function (callback) {
-    Utils.debug('_requestToken', this.__name__);
-    const request = this.session.request_http('GET', 'https://wallhaven.cc/auth/login');
-    const message = request.get_message();
-    this.session.queue_message(message, Lang.bind(this, function (session, message) {
-      let token = null;
-      if (message.status_code != Soup.KnownStatusCode.OK) {
-        Utils.debug('_requestToken error: ' + message.status_code, this.__name__);
-        if (callback) {
-          callback(token);
-        }
-        return;
-      }
-
-      token = message.response_body.data.match(/<input name="_token" type="hidden" value="(\w+)">/);
-      if (token) {
-        token = token[1];
-      }
-      Utils.debug('token: ' + token, this.__name__);
-
-      if (callback) {
-        callback(token);
-      }
-    }));
-  },
-
-  _requestLogin: function (username, password, token, callback) {
-    Utils.debug('_requestLogin', this.__name__);
-    const request = this.session.request_http('POST', 'https://wallhaven.cc/auth/login');
-    const message = request.get_message();
-    const body = '_token=' + token + '&username=' + username + '&password=' + password;
-    message.set_request('multipart/form-data', Soup.MemoryUse.COPY, body);
-    this.session.queue_message(message, Lang.bind(this, function (session, message) {
-      if (message.status_code != Soup.KnownStatusCode.OK) {
-        Utils.debug('_requestLogin error: ' + message.status_code, this.__name__);
-        if (callback) {
-          callback(false);
-        }
-        return;
-      }
-
-      Utils.debug(message.response_body.data, this.__name__);
-      if (callback) {
-        callback(true);
-      }
-    }));
-  }
 });
