@@ -1,14 +1,3 @@
-const settings = getSettings()
-const DEBUG = settings.get_boolean('debug');
-
-function debug(message, name) {
-  if (!DEBUG) return;
-  name = name ? ' - ' + name : '';
-  if(typeof global !== 'undefined') {
-    global.log('[wallpaper-changer' + name + '] ' + message);
-  }
-}
-
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 
@@ -18,9 +7,20 @@ const VALID_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
 
 const HOME = GLib.getenv('HOME');
 
+const settings = getSettings()
+const DEBUG = settings.get_boolean('debug');
+
 let providers;
 let currentProviderType;
 let currentProvider;
+
+function debug(message, name) {
+  if (!DEBUG) return;
+  name = name ? ' - ' + name : '';
+  if(typeof global !== 'undefined') {
+    global.log('[wallpaper-changer' + name + '] ' + message);
+  }
+}
 
 function getProviders() {
   if (providers) {
