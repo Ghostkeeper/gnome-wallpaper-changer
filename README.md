@@ -1,3 +1,5 @@
+Unmaintained as I switched away from Gnome personally.
+
 Fork of https://github.com/jomik/gnome-wallpaper-changer by Jonas Damtoft.
 
 This fork is using Wallhaven's REST API instead of scraping image IDs from HTML responses.
