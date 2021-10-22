@@ -24,117 +24,111 @@
 
 			<child>
 				<object class="GtkBox">
-					<property name="spacing">6</property>
-
+					<property name="spacing">12</property>
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Basic Settings</property>
-									<property name="hexpand">true</property>
-									<property name="halign">1</property>
-									<attributes>
-										<attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
-									</attributes>
-								</object>
-							</child>
-							<child>
-								<object class="GtkLabel" id="version_info">
-									<property name="label">Version info placeholder</property>
-									<property name="hexpand">false</property>
-									<property name="halign">1</property>
-								</object>
-							</child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Basic Settings</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+							<attributes>
+								<attribute name="weight" value="PANGO_WEIGHT_BOLD"/>
+							</attributes>
 						</object>
 					</child>
-
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Provider to use for getting wallpapers</property>
-									<property name="hexpand">true</property>
-									<property name="halign">1</property>
-								</object>
-							</child>
-							<child>
-								<object class="GtkComboBoxText" id="field_provider">
-								</object>
-							</child>
+						<object class="GtkLabel" id="version_info">
+							<property name="label">Version info placeholder</property>
+							<property name="hexpand">false</property>
+							<property name="halign">1</property>
 						</object>
 					</child>
+				</object>
+			</child>
 
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Time to wait between changing wallpaper (minutes)</property>
-									<property name="hexpand">true</property>
-									<property name="halign">1</property>
-								</object>
-							</child>
-							<child>
-								<object class="GtkSpinButton" id="field_minutes">
-									<property name="adjustment">AdjustMinutes</property>
-								</object>
-							</child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Provider to use for getting wallpapers</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
 						</object>
 					</child>
-
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Time to wait between changing wallpaper (hours)</property>
-									<property name="hexpand">true</property>
-									<property name="halign">1</property>
-								</object>
-							</child>
-							<child>
-								<object class="GtkSpinButton" id="field_hours">
-									<property name="adjustment">AdjustHours</property>
-								</object>
-							</child>
+						<object class="GtkComboBoxText" id="field_provider">
 						</object>
 					</child>
+				</object>
+			</child>
 
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Scaled to monitor</property>
-									<property name="halign">1</property>
-									<property name="hexpand">true</property>
-								</object>
-							</child>
-							<child>
-								<object class="GtkSwitch" id="field_scaled">
-									<property name="halign">1</property>
-								</object>
-							</child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Time to wait between changing wallpaper (minutes)</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
 						</object>
 					</child>
-
 					<child>
-						<object class="GtkBox">
-							<property name="spacing">12</property>
-							<child>
-								<object class="GtkLabel">
-									<property name="label" translatable="yes">Debugging</property>
-									<property name="halign">1</property>
-									<property name="hexpand">true</property>
-								</object>
-							</child>
-							<child>
-								<object class="GtkSwitch" id="field_debug">
-									<property name="halign">1</property>
-								</object>
-							</child>
+						<object class="GtkSpinButton" id="field_minutes">
+							<property name="adjustment">AdjustMinutes</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Time to wait between changing wallpaper (hours)</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSpinButton" id="field_hours">
+							<property name="adjustment">AdjustHours</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Scaled to monitor</property>
+							<property name="halign">1</property>
+							<property name="hexpand">true</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_scaled">
+							<property name="halign">1</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Debugging</property>
+							<property name="halign">1</property>
+							<property name="hexpand">true</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_debug">
+							<property name="halign">1</property>
 						</object>
 					</child>
 				</object>
