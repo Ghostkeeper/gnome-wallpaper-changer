@@ -44,16 +44,13 @@ function _updateProviderTab(main) {
   return function () {
     const providerPlace = main.get_object('provider_prefs');
     const providerPrefs = Utils.getProvider(settings.get_string('provider')).getPreferences().get_object('prefs_page');
-    const children = [];
-    for(let child = providerPlace.get_first_child(); child != null; child = child.get_next_sibling()) {
-      children.add(child);
-    }
-    children.forEach(function(child) {
+    for(let child = providerPlace.get_first_child(); child != null; child = providerPlace.get_first_child()) {
       providerPlace.remove(child);
       child.destroy();
-    });
+    }
     if (providerPrefs) {
       providerPlace.prepend(providerPrefs);
+      providerPrefs.show();
     }
   }
 }
