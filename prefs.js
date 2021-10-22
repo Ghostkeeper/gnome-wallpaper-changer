@@ -34,33 +34,26 @@ function buildPrefsWidget() {
     providerList.set_active(0);
   }
 
-  _updateProviderTab(main, true)();
+  _updateProviderTab(main)();
   settings.connect('changed::provider', Lang.bind(this, _updateProviderTab(main)));
 
-  widget.show_all();
   return widget;
 }
 
-function _updateProviderTab(main, dry) {
+function _updateProviderTab(main) {
   return function () {
     const providerPlace = main.get_object('provider_prefs');
     const providerPrefs = Utils.getProvider(settings.get_string('provider')).getPreferences().get_object('prefs_page');
-    providerPlace.forall(function (child) {
+    const children = [];
+    for(let child = providerPlace.get_first_child(); child != null; child = child.get_next_sibling()) {
+      children.add(child);
+    }
+    children.forEach(function(child) {
       providerPlace.remove(child);
       child.destroy();
     });
     if (providerPrefs) {
-      const children = [];
-      providerPrefs.forall(function (child) {
-        providerPrefs.remove(child);
-        children.unshift(child);
-      });
-      children.forEach(function (child) {
-        providerPlace.add(child);
-      });
-      if (!dry) {
-        providerPlace.show_all();
-      }
+      providerPlace.prepend(providerPrefs);
     }
   }
 }
