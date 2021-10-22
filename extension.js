@@ -147,7 +147,7 @@ const WallpaperChangerEntry = new Lang.Class({
     const scaled = this.settings.get_boolean('scaled')
     const background_setting = new Gio.Settings({ schema: 'org.gnome.desktop.background' });
 
-    if(background_setting.is_writable('picture-options')) {
+    if(scaled && background_setting.is_writable('picture-options')) {
       background_setting.set_string('picture-options', 'scaled');
     }
     if (background_setting.is_writable('picture-uri')) {
