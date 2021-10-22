@@ -15,18 +15,16 @@
 </object>
 
 <object class="GtkNotebook" id="prefs_widget">
-  <property name="expand">true</property>
 
 	<child>
 		<object class="GtkGrid" id="basic_prefs">
-			<property name="margin">18</property>
 			<property name="row-spacing">18</property>
 			<property name="row-homogeneous">false</property>
 			<property name="orientation">vertical</property>
 
 			<child>
-				<object class="GtkVBox">
-				<property name="spacing">6</property>
+				<object class="GtkBox">
+					<property name="spacing">6</property>
 
 					<child>
 						<object class="GtkBox">
@@ -53,7 +51,6 @@
 
 					<child>
 						<object class="GtkBox">
-							<property name="margin-left">12</property>
 							<property name="spacing">12</property>
 							<child>
 								<object class="GtkLabel">
@@ -71,7 +68,6 @@
 
 					<child>
 						<object class="GtkBox">
-							<property name="margin-left">12</property>
 							<property name="spacing">12</property>
 							<child>
 								<object class="GtkLabel">
@@ -90,7 +86,6 @@
 
 					<child>
 						<object class="GtkBox">
-							<property name="margin-left">12</property>
 							<property name="spacing">12</property>
 							<child>
 								<object class="GtkLabel">
@@ -109,7 +104,6 @@
 
 					<child>
 						<object class="GtkBox">
-							<property name="margin-left">12</property>
 							<property name="spacing">12</property>
 							<child>
 								<object class="GtkLabel">
@@ -128,7 +122,6 @@
 
 					<child>
 						<object class="GtkBox">
-							<property name="margin-left">12</property>
 							<property name="spacing">12</property>
 							<child>
 								<object class="GtkLabel">
@@ -157,7 +150,6 @@
 
 	<child>
 		<object class="GtkGrid" id="provider_prefs">
-			<property name="margin">18</property>
 			<property name="row-spacing">18</property>
 			<property name="row-homogeneous">false</property>
 			<property name="orientation">vertical</property>
