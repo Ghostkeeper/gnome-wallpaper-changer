@@ -1,8 +1,8 @@
 {
   "name": "Gnome Wallpaper Changer",
   "description": "Port of wallpaper-changer@jomik.org for Gnome 4",
-  "uuid": "gnome-wallpaper-changer-v2@ghostkeeper.github.com",
-  "url": "https://github.com/Ghostkeeper/gnome-wallpaper-changer-v2",
+  "uuid": "gnome-wallpaper-changer@ghostkeeper.github.com",
+  "url": "https://github.com/Ghostkeeper/gnome-wallpaper-changer",
   "version": "3.0.0",
   "shell-version": [
     "40"
