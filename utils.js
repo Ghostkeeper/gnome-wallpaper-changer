@@ -39,11 +39,17 @@ function getProvider(providerType) {
       currentProvider.destroy();
     }
 
-    const provider = this.getProviders()[providerType];
+    const providers = this.getProviders();
+    let provider = providers[providerType];
     if (provider) {
       currentProvider = new provider();
-    } else {
-      currentProvider = null;
+    } else { //Provider setting doesn't exist (or not any more since a version update).
+      provider = providers[Object.keys(providers)[0]]; //Fall back to the first available provider.
+      if (provider) {
+        currentProvider = new provider();
+      } else {
+        currentProvider = null; //No providers at all.
+      }
     }
   }
   return currentProvider;
