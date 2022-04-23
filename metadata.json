@@ -1,9 +1,9 @@
 {
   "name": "Gnome Wallpaper Changer v2",
   "description": "fork of wallpaper-changer@jomik.org",
-  "uuid": "gnome-wallpaper-changer-v2@ssk101.github.com",
-  "url": "https://github.com/ssk101/gnome-wallpaper-changer-v2",
-  "version": "1.0.0",
+  "uuid": "gnome-wallpaper-changer-v2@ghostkeeper.github.com",
+  "url": "https://github.com/Ghostkeeper/gnome-wallpaper-changer-v2",
+  "version": "2.0.0",
   "shell-version": [
     "3.28.4"
   ]
