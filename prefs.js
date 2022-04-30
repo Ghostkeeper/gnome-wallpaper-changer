@@ -1,5 +1,3 @@
-const Lang = imports.lang;
-
 const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
 
@@ -35,7 +33,7 @@ function buildPrefsWidget() {
 	}
 
 	_updateProviderTab(main)();
-	settings.connect('changed::provider', Lang.bind(this, _updateProviderTab(main)));
+	settings.connect('changed::provider', () => {this._updateProviderTab(main);});
 
 	return widget;
 }

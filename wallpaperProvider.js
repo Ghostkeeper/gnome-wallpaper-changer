@@ -1,5 +1,3 @@
-const Lang = imports.lang;
-
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
@@ -26,7 +24,7 @@ var Provider = class {
 
 		if(this.wallpapers.length > 1) {
 			const index = Math.floor(Math.random() * (this.wallpapers.length - 1));
-			this.currentWallpaper = this.wallpapers.filter(Lang.bind(this, notCurrent))[index];
+			this.currentWallpaper = this.wallpapers.filter((file) => {return file !== this.currentWallpaper;})[index];
 		} else {
 			this.currentWallpaper = this.wallpapers[0];
 		}
