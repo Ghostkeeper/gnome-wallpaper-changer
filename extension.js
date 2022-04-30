@@ -157,7 +157,6 @@ function init() {
 }
 
 function enable() {
-	global.log('Enabling wallpaper-changer!');
 	panelEntry = new WallpaperChangerEntry();
 	Main.panel.addToStatusArea('wallpaper-changer-menu', panelEntry);
 }

@@ -9,8 +9,7 @@ const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 
 var Provider = class {
-	constructor(name) {
-		this.__name__ = name;
+	constructor() {
 		Signals.addSignalMethods(this);
 		Utils.debug('_init', this.__name__);
 		this.currentWallpaper = null;
@@ -43,7 +42,7 @@ var Provider = class {
 
 	getPreferences() {
 		Utils.debug('getPreferences', this.__name__);
-		let prefs = Self.dir.get_path() + '/preferences/' + this.__name__.toLowerCase() + '.xml';
+		let prefs = Self.dir.get_path() + '/preferences/' + this.name + '.xml';
 		let prefsFile = Gio.File.new_for_path(prefs);
 		if(!prefsFile.query_exists(null)) {
 			prefs = Self.dir.get_path() + '/preferences/provider.xml';

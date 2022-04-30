@@ -10,8 +10,10 @@ const WallpaperProvider = Self.imports.wallpaperProvider;
 let WALLPAPER_PATH = '/usr/share/backgrounds/gnome';
 
 class _Provider extends WallpaperProvider.Provider {
+	name = 'Folder';
+
 	constructor() {
-		super('Folder');
+		super();
 		this.settings = Utils.getSettings(this);
 		this.applySettings();
 		this.settings.connect('changed', Lang.bind(this, this.applySettings));

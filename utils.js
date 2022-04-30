@@ -30,8 +30,7 @@ function getProviders() {
 			continue; //Other files pollute.
 		}
 		const provider = Self.imports.providers[p].Provider;
-		const providerString = provider.toString();
-		const name = providerString.substring(18, providerString.length - 1);
+		const name = provider.name;
 		providers[name] = provider;
 	}
 	return providers;
@@ -62,7 +61,7 @@ function getProvider(providerType) {
 function getSettings(provider) {
 	let sub = '';
 	if(provider) {
-		sub = '.providers.' + provider.__name__.toLowerCase();
+		sub = '.providers.' + provider.name.toLowerCase();
 	}
 	const schema = 'org.gnome.shell.extensions.wallpaper-changer' + sub;
 
