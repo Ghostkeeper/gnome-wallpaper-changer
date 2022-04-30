@@ -9,15 +9,17 @@ const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 
 var Provider = class {
+	static get name() { return "Provider Base"; }
+
 	constructor() {
 		Signals.addSignalMethods(this);
-		Utils.debug('_init', this.__name__);
+		Utils.debug('_init', this.constructor.name);
 		this.currentWallpaper = null;
 		this.wallpapers = [];
 	}
 
 	next(callback) {
-		Utils.debug('next', this.__name__);
+		Utils.debug('next', this.constructor.name);
 		function notCurrent(file) {
 			return file !== this.currentWallpaper;
 		}
@@ -29,20 +31,20 @@ var Provider = class {
 			this.currentWallpaper = this.wallpapers[0];
 		}
 
-		Utils.debug('next' + this.currentWallpaper, this.__name__);
+		Utils.debug('next' + this.currentWallpaper, this.constructor.name);
 		if(callback) {
 			callback(this.currentWallpaper);
 		}
 	}
 
 	get() {
-		Utils.debug('get', this.__name__);
+		Utils.debug('get', this.constructor.name);
 		return this.currentWallpaper;
 	}
 
 	getPreferences() {
-		Utils.debug('getPreferences', this.__name__);
-		let prefs = Self.dir.get_path() + '/preferences/' + this.name + '.xml';
+		Utils.debug('getPreferences', this.constructor.name);
+		let prefs = Self.dir.get_path() + '/preferences/' + this.constructor.name.toLowerCase() + '.xml';
 		let prefsFile = Gio.File.new_for_path(prefs);
 		if(!prefsFile.query_exists(null)) {
 			prefs = Self.dir.get_path() + '/preferences/provider.xml';
@@ -52,6 +54,6 @@ var Provider = class {
 	}
 
 	destroy() {
-		Utils.debug('destroy', this.__name__);
+		Utils.debug('destroy', this.constructor.name);
 	}
 };

@@ -10,7 +10,7 @@ const WallpaperProvider = Self.imports.wallpaperProvider;
 let WALLPAPER_PATH = '/usr/share/backgrounds/gnome';
 
 class _Provider extends WallpaperProvider.Provider {
-	name = 'Folder';
+	static get name() { return "Folder"; }
 
 	constructor() {
 		super();
@@ -34,13 +34,13 @@ class _Provider extends WallpaperProvider.Provider {
 
 	applySettings() {
 		WALLPAPER_PATH = this.settings.get_string('wallpaper-path');
-		Utils.debug('_applySettings', this.__name__);
+		Utils.debug('_applySettings', this.constructor.name);
 
 		this.setupWallpaperDir();
 	}
 
 	setupWallpaperDir() {
-		Utils.debug('_setupWallpaperDir', this.__name__);
+		Utils.debug('_setupWallpaperDir', this.constructor.name);
 		if(this.monitor) {
 			this.monitor.cancel();
 		}
@@ -54,7 +54,7 @@ class _Provider extends WallpaperProvider.Provider {
 	}
 
 	wallpapersChanged(monitor, file, other_file, event_type) {
-		Utils.debug('_wallpapersChanged ' + file.get_basename() + ' event: ' + event_type, this.__name__);
+		Utils.debug('_wallpapersChanged ' + file.get_basename() + ' event: ' + event_type, this.constructor.name);
 		if(!this.dir.query_exists(null)) {
 			monitor.cancel();
 			throw new Error('No directory : ' + this.dir.get_path());

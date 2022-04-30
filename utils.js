@@ -61,7 +61,7 @@ function getProvider(providerType) {
 function getSettings(provider) {
 	let sub = '';
 	if(provider) {
-		sub = '.providers.' + provider.name.toLowerCase();
+		sub = '.providers.' + provider.constructor.name.toLowerCase();
 	}
 	const schema = 'org.gnome.shell.extensions.wallpaper-changer' + sub;
 
