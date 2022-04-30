@@ -18,13 +18,13 @@ class _Provider extends WallpaperProvider.Provider {
 	}
 
 	getPreferences() {
-		const prefs = this.parent();
+		const prefs = super.getPreferences();
 		this.settings.bind('wallpaper-path', prefs.get_object('field_wallpaper_path'), 'text', Gio.SettingsBindFlags.DEFAULT);
 		return prefs;
 	}
 
 	destroy() {
-		this.parent();
+		super.destroy();
 		if(this.monitor) {
 			this.monitor.cancel();
 		}
