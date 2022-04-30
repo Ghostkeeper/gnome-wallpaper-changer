@@ -121,7 +121,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 			Utils.debug('Set to ' + TIMER.toSeconds(), this.__name__);
 			this.timer = GLib.timeout_add_seconds(GLib.PRIORITY_DEFAULT,
 				TIMER.toSeconds(),
-				function() {
+				() => {
 					this.timer = null;
 					this.nextWallpaper();
 					return false;

@@ -1,5 +1,3 @@
-const Lang = imports.lang;
-
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 
@@ -16,7 +14,7 @@ class _Provider extends WallpaperProvider.Provider {
 		super();
 		this.settings = Utils.getSettings(this);
 		this.applySettings();
-		this.settings.connect('changed', Lang.bind(this, this.applySettings));
+		this.settings.connect('changed', () => {this.applySettings();});
 	}
 
 	getPreferences() {
@@ -49,7 +47,7 @@ class _Provider extends WallpaperProvider.Provider {
 		if(this.dir.query_exists(null)) {
 			this.wallpapers = Utils.getFolderWallpapers(this.dir);
 			this.monitor = this.dir.monitor_directory(Gio.FileMonitorFlags.NONE, null)
-			this.monitor.connect('changed', Lang.bind(this, this.wallpapersChanged));
+			this.monitor.connect('changed', () => {this.wallpapersChanged();});
 		}
 	}
 
