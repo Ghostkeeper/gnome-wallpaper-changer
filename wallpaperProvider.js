@@ -8,18 +8,18 @@ const Signals = imports.signals;
 const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 
-const Provider = new Lang.Class({
-	Name: 'WallpaperProviderBase',
-	Abstract: true,
-	currentWallpaper: null,
-	wallpapers: [],
+var Provider = class {
+	//Name: 'WallpaperProviderBase',
 
-	_init: function() {
+	constructor(name) {
+		this.__name__ = name;
 		Signals.addSignalMethods(this);
 		Utils.debug('_init', this.__name__);
-	},
+		this.currentWallpaper = null;
+		this.wallpapers = [];
+	}
 
-	next: function(callback) {
+	next(callback) {
 		Utils.debug('next', this.__name__);
 		function notCurrent(file) {
 			return file !== this.currentWallpaper;
@@ -36,14 +36,14 @@ const Provider = new Lang.Class({
 		if(callback) {
 			callback(this.currentWallpaper);
 		}
-	},
+	}
 
-	get: function() {
+	get() {
 		Utils.debug('get', this.__name__);
 		return this.currentWallpaper;
-	},
+	}
 
-	getPreferences: function() {
+	getPreferences() {
 		Utils.debug('getPreferences', this.__name__);
 		let prefs = Self.dir.get_path() + '/preferences/' + this.__name__.toLowerCase() + '.xml';
 		let prefsFile = Gio.File.new_for_path(prefs);
@@ -52,9 +52,9 @@ const Provider = new Lang.Class({
 		}
 		const builder = Gtk.Builder.new_from_file(prefs);
 		return builder;
-	},
+	}
 
-	destroy: function() {
+	destroy() {
 		Utils.debug('destroy', this.__name__);
 	}
-});
+};

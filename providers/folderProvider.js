@@ -9,39 +9,35 @@ const WallpaperProvider = Self.imports.wallpaperProvider;
 
 let WALLPAPER_PATH = '/usr/share/backgrounds/gnome';
 
-const Provider = new Lang.Class({
-	Name: 'Folder',
-	Extends: WallpaperProvider.Provider,
-
-	_init: function() {
-		this.parent();
+class _Provider extends WallpaperProvider.Provider {
+	constructor() {
+		super('Folder');
 		this.settings = Utils.getSettings(this);
-		this._applySettings();
-		this.settings.connect('changed', Lang.bind(this, this._applySettings));
+		this.applySettings();
+		this.settings.connect('changed', Lang.bind(this, this.applySettings));
+	}
 
-	},
-
-	getPreferences: function() {
+	getPreferences() {
 		const prefs = this.parent();
 		this.settings.bind('wallpaper-path', prefs.get_object('field_wallpaper_path'), 'text', Gio.SettingsBindFlags.DEFAULT);
 		return prefs;
-	},
+	}
 
-	destroy: function() {
+	destroy() {
 		this.parent();
 		if(this.monitor) {
 			this.monitor.cancel();
 		}
-	},
+	}
 
-	_applySettings: function() {
+	applySettings() {
 		WALLPAPER_PATH = this.settings.get_string('wallpaper-path');
 		Utils.debug('_applySettings', this.__name__);
 
-		this._setupWallpaperDir();
-	},
+		this.setupWallpaperDir();
+	}
 
-	_setupWallpaperDir: function() {
+	setupWallpaperDir() {
 		Utils.debug('_setupWallpaperDir', this.__name__);
 		if(this.monitor) {
 			this.monitor.cancel();
@@ -51,11 +47,11 @@ const Provider = new Lang.Class({
 		if(this.dir.query_exists(null)) {
 			this.wallpapers = Utils.getFolderWallpapers(this.dir);
 			this.monitor = this.dir.monitor_directory(Gio.FileMonitorFlags.NONE, null)
-			this.monitor.connect('changed', Lang.bind(this, this._wallpapersChanged));
+			this.monitor.connect('changed', Lang.bind(this, this.wallpapersChanged));
 		}
-	},
+	}
 
-	_wallpapersChanged: function(monitor, file, other_file, event_type) {
+	wallpapersChanged(monitor, file, other_file, event_type) {
 		Utils.debug('_wallpapersChanged ' + file.get_basename() + ' event: ' + event_type, this.__name__);
 		if(!this.dir.query_exists(null)) {
 			monitor.cancel();
@@ -77,4 +73,5 @@ const Provider = new Lang.Class({
 				break;
 		}
 	}
-});
+};
+var Provider = _Provider; //Expose to public. Apparently the `var Provider = class { }` keyword doesn't support inheritance.
