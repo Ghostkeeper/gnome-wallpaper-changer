@@ -3,7 +3,7 @@ function debug(message, name) {
 	if(!DEBUG)
 		return;
 	name = name ? ' - ' + name : '';
-	global.log('[wallpaper-changer' + name + '] ' + message);
+	log('[wallpaper-changer' + name + '] ' + message);
 }
 
 const Gio = imports.gi.Gio;
