@@ -1,4 +1,4 @@
-let DEBUG = false;
+var DEBUG = false;
 function debug(message, name) {
 	if(!DEBUG)
 		return;
