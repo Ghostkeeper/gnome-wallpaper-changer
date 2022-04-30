@@ -67,9 +67,9 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 		this.menu.addMenuItem(settingsItem);
 
 		// Bind events
-		settingsItem.connect('activate', this.openSettings);
-		nextItem.connect('activate',this.nextWallpaper);
-		pauseItem.connect('activate', this.pauseToggle(pauseItem));
+		settingsItem.connect('activate', () => {this.openSettings();});
+		nextItem.connect('activate', () => {this.nextWallpaper();});
+		pauseItem.connect('activate', () => {this.pauseToggle(pauseItem);});
 	}
 
 	openSettings() {
@@ -78,7 +78,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	nextWallpaper() {
-		this.provider.next(this.setWallpaper);
+		this.provider.next((path) => {this.setWallpaper(path);});
 		this.resetTimer();
 	}
 

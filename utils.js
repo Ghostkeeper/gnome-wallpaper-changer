@@ -25,12 +25,10 @@ function getProviders() {
 	}
 
 	providers = {};
-	global.log("All providers: " + Self.imports.providers);
 	for(let p in Self.imports.providers) {
 		if(!Self.imports.providers[p].Provider) {
 			continue; //Other files pollute.
 		}
-		global.log("Self.imports.providers[p]: " + Self.imports.providers[p]);
 		const provider = Self.imports.providers[p].Provider;
 		const providerString = provider.toString();
 		const name = providerString.substring(18, providerString.length - 1);

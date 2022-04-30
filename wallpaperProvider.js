@@ -9,8 +9,6 @@ const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 
 var Provider = class {
-	//Name: 'WallpaperProviderBase',
-
 	constructor(name) {
 		this.__name__ = name;
 		Signals.addSignalMethods(this);
