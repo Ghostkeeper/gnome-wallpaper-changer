@@ -1,3 +1,7 @@
+3.0.1
+----
+* Updated extension metadata after code review.
+
 3.0.0
 ----
 This release, the project maintenance was taken over by Ghostkeeper.
