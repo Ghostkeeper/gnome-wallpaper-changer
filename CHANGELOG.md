@@ -1,7 +1,7 @@
 3.0.0
 ----
 This release, the project maintenance was taken over by Ghostkeeper.
-* Gnome-wallpaper-changer now runs on Gnome 40.
+* Gnome-wallpaper-changer now runs on Gnome 40, 41 and 42.
 * Removed the Wallhaven provider, which was no longer working.
 * Added a change log.
 
