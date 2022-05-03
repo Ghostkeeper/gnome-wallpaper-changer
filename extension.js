@@ -90,7 +90,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	applyProvider() {
-		Utils.debug('_applyProvider', this.__name__);
+		Utils.debug('applyProvider', this.__name__);
 		this.provider = Utils.getProvider(this.settings.get_string('provider'));
 		this.nextWallpaper();
 		this.provider.connect('wallpapers-changed', function(provider) {
@@ -102,7 +102,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	applyTimer() {
-		Utils.debug('_applyTimer', this.__name__);
+		Utils.debug('applyTimer', this.__name__);
 		TIMER.minutes = this.settings.get_int('minutes');
 		TIMER.hours = this.settings.get_int('hours');
 
@@ -110,7 +110,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	resetTimer() {
-		Utils.debug('_resetTimer', this.__name__);
+		Utils.debug('resetTimer', this.__name__);
 		if(this.timer) {
 			GLib.Source.remove(this.timer);
 		}
@@ -131,7 +131,7 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	setWallpaper(path) {
-		Utils.debug('_setWallpaper', this.__name__);
+		Utils.debug('setWallpaper', this.__name__);
 		const scaled = this.settings.get_boolean('scaled')
 		const background_setting = new Gio.Settings({ schema: 'org.gnome.desktop.background' });
 
@@ -160,6 +160,7 @@ function enable() {
 }
 
 function disable() {
+	GLib.Source.remove(panelEntry.timer);
 	panelEntry.destroy();
 	panelEntry = null;
 }
