@@ -71,8 +71,8 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 	}
 
 	openSettings() {
-		Utils.debug('_openSettings', this.__name__);
-		Util.spawn(['gnome-shell-extension-prefs', Self.uuid]);
+		Utils.debug('openSettings', this.__name__);
+		imports.misc.extensionUtils.openPrefs();
 	}
 
 	nextWallpaper() {
