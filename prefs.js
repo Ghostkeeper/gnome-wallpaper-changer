@@ -4,10 +4,7 @@ const Gio = imports.gi.Gio;
 const Self = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Self.imports.utils;
 
-let settings;
-
 function init() {
-	settings = Utils.getSettings();
 }
 
 function buildPrefsWidget() {
@@ -22,6 +19,7 @@ function buildPrefsWidget() {
 		providerList.append(provider, provider);
 	}
 
+	let settings = Utils.getSettings();
 	settings.bind('minutes', main.get_object('field_minutes'), 'value', Gio.SettingsBindFlags.DEFAULT);
 	settings.bind('hours', main.get_object('field_hours'), 'value', Gio.SettingsBindFlags.DEFAULT);
 	settings.bind('provider', main.get_object('field_provider'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
@@ -40,6 +38,7 @@ function buildPrefsWidget() {
 
 function _updateProviderTab(main) {
 	return function() {
+		const settings = Utils.getSettings();
 		const providerPlace = main.get_object('provider_prefs');
 		const providerPrefs = Utils.getProvider(settings.get_string('provider')).getPreferences().get_object('prefs_page');
 		for(let child = providerPlace.get_first_child(); child != null; child = providerPlace.get_first_child()) {
