@@ -64,26 +64,7 @@ function getSettings(provider) {
 		sub = '.providers.' + provider.constructor.name.toLowerCase();
 	}
 	const schema = 'org.gnome.shell.extensions.wallpaper-changer' + sub;
-
-	const GioSSS = Gio.SettingsSchemaSource;
-
-	const schemaDir = Self.dir.get_child('schemas');
-	let schemaSource;
-	if(schemaDir.query_exists(null)) {
-		schemaSource = GioSSS.new_from_directory(schemaDir.get_path(),
-			GioSSS.get_default(),
-			false);
-	} else {
-		schemaSource = GioSSS.get_default();
-	}
-
-	const schemaObj = schemaSource.lookup(schema, true);
-	if(!schemaObj) {
-		throw new Error('Schema ' + schema + ' could not be found for extension ' +
-			Self.metadata.uuid + '. Please check your installation.');
-	}
-
-	return new Gio.Settings({ settings_schema: schemaObj });
+	return imports.misc.extensionUtils.getSettings(schema);
 }
 
 function realPath(path) {
