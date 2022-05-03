@@ -161,6 +161,7 @@ function enable() {
 
 function disable() {
 	panelEntry.destroy();
+	panelEntry = null;
 }
 
 
