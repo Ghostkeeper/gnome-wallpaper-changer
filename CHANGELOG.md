@@ -1,3 +1,12 @@
+3.0.3
+----
+* Release timer from memory when extension gets disabled.
+
+3.0.2
+----
+* Fixed minor code style issues after code review
+* Fixed timer that was still running after extension gets disabled.
+
 3.0.1
 ----
 * Updated extension metadata after code review.
