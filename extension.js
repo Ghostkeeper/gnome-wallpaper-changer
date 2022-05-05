@@ -161,6 +161,7 @@ function enable() {
 
 function disable() {
 	GLib.Source.remove(panelEntry.timer);
+	panelEntry.timer = null;
 	panelEntry.destroy();
 	panelEntry = null;
 }
