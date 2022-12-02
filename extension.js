@@ -148,6 +148,16 @@ class WallpaperChangerEntry extends PanelMenu.Button {
 		} else {
 			Utils.debug('Can\'t write to org.gnome.desktop.background', this.__name__);
 		}
+		if(background_setting.is_writable('picture-uri-dark')) {
+			if(background_setting.set_string('picture-uri-dark', 'file://' + path)) {
+				Utils.debug(path, this.__name__);
+				Gio.Settings.sync();
+			} else {
+				Utils.debug('Unable to set wallpaper', this.__name__)
+			}
+		} else {
+			Utils.debug('Can\'t write to org.gnome.desktop.background', this.__name__);
+		}
 	}
 };
 
