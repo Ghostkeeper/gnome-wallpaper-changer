@@ -8,5 +8,10 @@
       <summary>Path to wallpaper folder</summary>
       <description>The path to the directory containing the wallpapers</description>
     </key>
+    <key name="max-directory-descent" type="i">
+      <default>0</default>
+      <summary>Number of directories level allowed to descend</summary>
+      <description>How many directories down to descent</description>
+    </key>
   </schema>
 </schemalist>
