@@ -85,22 +85,35 @@ function makeDirectory(path) {
 	return dir;
 }
 
-function getFolderWallpapers(dir) {
+function getFolderWallpapers(dir, max_depth=10, depth=1, files =[]) {
 	const children = dir.enumerate_children('standard::name,standard::type',
 		Gio.FileQueryInfoFlags.NONE, null);
 
-	let info, files = [];
+	let info = [];
 	while((info = children.next_file(null)) != null) {
 		const type = info.get_file_type();
 		const name = info.get_name();
+		debug(`(getFolderWallpapers):: Found ${name}`);
 		const child = dir.get_child(name);
 		if(isValidWallpaper(name, type)) {
 			files.push(child.get_parse_name());
+		}
+		if (type == Gio.FileType.DIRECTORY && depth < max_depth) {
+			const child_dir_path = `${dir.get_path()}/${name}`;
+			const child_dir = Gio.File.new_for_path(child_dir_path);
+			debug(`(getFolderWallpapers):: Descending into child dir ${child_dir_path}`);
+			if(child_dir.query_exists(null)){
+				getFolderWallpapers(child_dir, max_depth=max_depth, depth=1, files=files);
+			}			
+			else {
+				debug(`Path ${child_dir_path} not found, skipping`);
+			}
 		}
 	}
 
 	return files;
 }
+
 
 function isValidWallpaper(file, type) {
 	const ext = file.substring(file.lastIndexOf('.') + 1).toLowerCase();
