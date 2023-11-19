@@ -85,10 +85,9 @@ function makeDirectory(path) {
 	return dir;
 }
 
-function getFolderWallpapers(dir, max_depth=10, depth=1, files =[]) {
+function getFolderWallpapers(dir, max_depth=0, depth=0, files =[]) {
 	const children = dir.enumerate_children('standard::name,standard::type',
 		Gio.FileQueryInfoFlags.NONE, null);
-
 	let info = [];
 	while((info = children.next_file(null)) != null) {
 		const type = info.get_file_type();
@@ -113,7 +112,6 @@ function getFolderWallpapers(dir, max_depth=10, depth=1, files =[]) {
 
 	return files;
 }
-
 
 function isValidWallpaper(file, type) {
 	const ext = file.substring(file.lastIndexOf('.') + 1).toLowerCase();

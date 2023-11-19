@@ -6,6 +6,7 @@ const Utils = Self.imports.utils;
 const WallpaperProvider = Self.imports.wallpaperProvider;
 
 let WALLPAPER_PATH = '/usr/share/backgrounds/gnome';
+let MAX_DIRECTORY_DESCENT = 0;
 
 class _Provider extends WallpaperProvider.Provider {
 	static get name() { return "Folder"; }
@@ -20,6 +21,7 @@ class _Provider extends WallpaperProvider.Provider {
 	getPreferences() {
 		const prefs = super.getPreferences();
 		this.settings.bind('wallpaper-path', prefs.get_object('field_wallpaper_path'), 'text', Gio.SettingsBindFlags.DEFAULT);
+		this.settings.bind('max-directory-descent', prefs.get_object('field_max_directory_descent'), 'value', Gio.SettingsBindFlags.DEFAULT);
 		return prefs;
 	}
 
@@ -32,6 +34,7 @@ class _Provider extends WallpaperProvider.Provider {
 
 	applySettings() {
 		WALLPAPER_PATH = this.settings.get_string('wallpaper-path');
+		MAX_DIRECTORY_DESCENT = this.settings.get_int('max-directory-descent');
 		Utils.debug('_applySettings', this.constructor.name);
 
 		this.setupWallpaperDir();
@@ -45,7 +48,7 @@ class _Provider extends WallpaperProvider.Provider {
 		this.monitor = null;
 		this.dir = Gio.File.new_for_path(Utils.realPath(WALLPAPER_PATH));
 		if(this.dir.query_exists(null)) {
-			this.wallpapers = Utils.getFolderWallpapers(this.dir);
+			this.wallpapers = Utils.getFolderWallpapers(this.dir, MAX_DIRECTORY_DESCENT);
 			this.monitor = this.dir.monitor_directory(Gio.FileMonitorFlags.NONE, null)
 			this.monitor.connect('changed', () => {this.wallpapersChanged();});
 		}

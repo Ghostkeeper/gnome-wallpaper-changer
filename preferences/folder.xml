@@ -2,6 +2,12 @@
 
 <interface domain="wallpaper-changer">
 
+<object class="GtkAdjustment" id="AdjustMaxDescent">
+	<property name="lower">0</property>
+	<property name="upper">100</property>
+	<property name="step_increment">1</property>
+</object>
+
 <object class="GtkGrid" id="prefs_page">
 	<property name="row-spacing">12</property>
 	<property name="row-homogeneous">false</property>
@@ -26,6 +32,32 @@
 					<child>
 						<object class="GtkEntry" id="field_wallpaper_path">
 							<property name="hexpand">true</property>
+						</object>
+					</child>
+				</object>
+			</child>
+		</object>
+	</child>
+	<child>
+		<object class="GtkBox">
+			<property name="margin-top">18</property>
+			<property name="margin-start">18</property>
+			<property name="margin-bottom">18</property>
+			<property name="margin-end">18</property>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">12</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Max Directory Descent</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSpinButton" id="field_max_directory_descent">
+							<property name="adjustment">AdjustMaxDescent</property>
 						</object>
 					</child>
 				</object>
